@@ -1,9 +1,12 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
-const NewFood = ({ addNewFood }) => {
+const UpdateFood = ({ foods, updateFood }) => {
+  const { id } = useParams();
   const navigate = useNavigate();
+
+  const existingFood = foods.find((food) => food.id === id);
+
   const [formValues, setFormValues] = useState({
     name: "",
     calories: "",
@@ -11,22 +14,24 @@ const NewFood = ({ addNewFood }) => {
     servings: "",
   });
 
+  useEffect(() => {
+    if (existingFood) {
+      setFormValues({
+        name: existingFood.name,
+        calories: existingFood.calories,
+        image: existingFood.image,
+        servings: existingFood.servings,
+      });
+    }
+  }, [existingFood]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const newId = uuidv4();
-    addNewFood({
-      id: newId,
-      ...formValues,
-      calories: Number(formValues.calories),
-      servings: Number(formValues.servings),
-    });
+    const updatedFood = { ...existingFood, ...formValues };
+    onUpdate(updatedFood);
+    navigate("/foods");
 
-    setFormValues({
-      name: "",
-      calories: "",
-      image: "",
-      servings: "",
-    });
+    navigate("/foods");
   };
 
   const handleChange = (event) => {
@@ -41,7 +46,7 @@ const NewFood = ({ addNewFood }) => {
 
   return (
     <>
-      <h3>Add New Food</h3>
+      <h1>Update Food</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Food Name:</label>
@@ -70,7 +75,6 @@ const NewFood = ({ addNewFood }) => {
             name="image"
             value={formValues.image}
             onChange={handleChange}
-            required
           />
         </div>
         <div>
@@ -83,10 +87,10 @@ const NewFood = ({ addNewFood }) => {
             required
           />
         </div>
-        <button type="submit">Add Food</button>
+        <button type="submit">Update Food</button>
       </form>
     </>
   );
 };
 
-export default NewFood;
+export default UpdateFood;
