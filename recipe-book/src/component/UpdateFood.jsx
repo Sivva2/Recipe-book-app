@@ -29,8 +29,7 @@ const UpdateFood = ({ foods, onUpdate }) => {
     event.preventDefault();
     const updatedFood = { ...existingFood, ...formValues };
     onUpdate(updatedFood);
-
-    navigate(`/food/${updatedFood.id}`);
+    navigate("/");
   };
 
   const handleChange = (event) => {
