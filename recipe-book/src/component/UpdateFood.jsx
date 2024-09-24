@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-const UpdateFood = ({ foods, updateFood }) => {
+const UpdateFood = ({ foods, onUpdate }) => {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -29,9 +29,8 @@ const UpdateFood = ({ foods, updateFood }) => {
     event.preventDefault();
     const updatedFood = { ...existingFood, ...formValues };
     onUpdate(updatedFood);
-    navigate("/foods");
 
-    navigate("/foods");
+    navigate(`/food/${updatedFood.id}`);
   };
 
   const handleChange = (event) => {
