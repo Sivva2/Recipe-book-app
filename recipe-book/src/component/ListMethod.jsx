@@ -9,11 +9,10 @@ const ListMethod = ({ item, onDelete }) => {
   };
   return (
     <li key={item.id}>
-      <h2>
-        {item.name} {isHealthy ? "healthy" : "unhealthy"}
-      </h2>
+      <h2>{item.name}</h2>
       <img src={item.image} alt={item.name} />
-      <p>Servings: {item.servings}</p>
+      <p>Servings : {item.servings}</p>
+      <p>Healthy : {isHealthy ? "👍" : "👎"}</p>
       <button
         type="button"
         onClick={() => {
